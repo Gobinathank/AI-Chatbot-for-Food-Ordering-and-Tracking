@@ -1,150 +1,31 @@
+🍕 AI Chatbot for Food Ordering & TrackingAn intelligent conversational agent designed to streamline the food ordering experience. This system allows users to browse items, place orders, modify carts, and track delivery status in real-time through a natural language interface.🚀 OverviewThis project bridges the gap between customer convenience and backend efficiency. By leveraging Dialogflow for Natural Language Understanding (NLU) and FastAPI for a high-performance backend, the system provides a seamless end-to-end ordering workflow.🛠 Tech StackLayerTechnologyNLU / NLPDialogflow ESBackend FrameworkFastAPI (Python 3.7+)DatabaseMySQLTunnelingngrokFrontendHTML5 / CSS3✨ Key FeaturesNatural Language Ordering: Simply tell the chatbot what you want (e.g., "Add 2 pizzas and a coke").Dynamic Cart Management: Add, update, or remove items before final checkout.Real-time Tracking: Instantly retrieve order status using a unique Order ID.Persistence: All order data is stored securely in a MySQL database for reliability.Webhook Integration: Seamless communication between Dialogflow and the FastAPI backend.⚙️ System ArchitectureUser Interface: The user sends a message through the HTML frontend.NLU Processing: Dialogflow parses the intent (e.g., order.add) and extracts entities (item names, quantities).Webhook Call: Dialogflow sends a JSON payload to the FastAPI backend via an ngrok tunnel.Backend Logic: main.py processes the request and uses db_helper.py to query the MySQL database.Response: The backend returns a text response which the chatbot displays to the user.🛠 Installation & Setup1. PrerequisitesPython 3.7 or higherMySQL Server installed and runningAn active Dialogflow accountngrok installed2. Environment SetupBash# Clone the repository
+git clone https://github.com/yourusername/ai-chatbot-food-ordering-tracking.git
+cd ai-chatbot-food-ordering-tracking
 
+# Create and activate virtual environment
+python -m venv venv
+# On Windows: venv\Scripts\activate | On Mac/Linux: source venv/bin/activate
 
----
-
-**AI Chatbot for Food Ordering and Tracking**
-
----
-
-### Project Description
-The **AI Chatbot for Food Ordering and Tracking** is a smart solution designed to streamline food orders and track their status. Users can interact with the chatbot to manage orders and track their progress in real time. The chatbot utilizes Dialogflow for natural language processing and connects to a FastAPI backend to handle order management. A MySQL database is used to store and retrieve order details.
-
----
-
-### Features
-
-- **Place Orders**: Users can add items to their orders through the chatbot.
-- **Modify Orders**: Users can update or remove items from their orders.
-- **Track Orders**: Users can track their orders' status in real time.
-- **Real-time Interaction**: The chatbot provides instant responses and order updates.
-- **Database Integration**: Order details are stored and managed using a MySQL database.
-
----
-
-### Tech Stack
-
-- **Frontend**: HTML, Dialogflow API for chatbot interaction
-- **Backend**: FastAPI, Python
-- **Database**: MySQL
-- **Deployment**: ngrok for HTTP to HTTPS conversion, integrated with Dialogflow
-
----
-
-### Installation
-
-#### Prerequisites
-- Python 3.7+
-- MySQL Server
-- Ngrok for tunneling
-- FastAPI
-- Dialogflow account to configure intents
-
-#### Steps to Run Locally
-
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/ai-chatbot-food-ordering-tracking.git
-   cd ai-chatbot-food-ordering-tracking
-   ```
-
-2. **Create a Python Virtual Environment**:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install Dependencies**:
-   ```bash
-   pip install fastapi mysql-connector-python uvicorn
-   ```
-
-4. **Set Up MySQL Database**:
-   - Create a new MySQL database named `track_n_treat`.
-   - Update the database credentials in the `db_helper.py` file.
-   - Import necessary SQL scripts from the `/sql` folder (if available).
-
-5. **Run FastAPI Backend**:
-   ```bash
-   uvicorn main:app --reload
-   ```
-
-6. **Set Up Ngrok**:
-   - Download and install [ngrok](https://ngrok.com/).
-   - Run the following to expose your FastAPI server:
-     ```bash
-     ngrok http 8000
-     ```
-   - Copy the HTTPS URL from ngrok and use it in Dialogflow's webhook settings.
-
-7. **Integrate with Dialogflow**:
-   - Create a Dialogflow agent and set up intents (e.g., add, remove, and track orders).
-   - Use the ngrok HTTPS URL as the webhook URL for real-time backend communication.
-
-8. **Access the Frontend**:
-   - Open the `index.html` file in a browser to interact with the embedded chatbot.
-
----
-
-### Usage
-
-1. **Place an Order**: Mention food items and quantities to the chatbot.
-2. **Track an Order**: Provide the order ID, and the chatbot will give you the current status.
-3. **Modify an Order**: Remove items before completing the order.
-
----
-
-### Project Structure
-
-```
-📁 ai-chatbot-food-ordering-tracking/
+# Install dependencies
+pip install fastapi mysql-connector-python uvicorn
+3. Database ConfigurationCreate a MySQL database named track_n_treat.Execute the scripts found in the /sql folder to set up the necessary tables.Update your database credentials in backend/db_helper.py:Python# Example configuration
+db_config = {
+    "user": "root",
+    "password": "yourpassword",
+    "host": "localhost",
+    "database": "track_n_treat"
+}
+4. Running the ApplicationStart Backend:Bashuvicorn main:app --reload
+Start ngrok Tunnel:Bashngrok http 8000
+Dialogflow Setup:Copy the https URL from ngrok.In Dialogflow Console, go to Fulfillment > Webhook > Paste the URL + /webhook.Enable Webhook for your intents.📂 Project StructurePlaintext📁 ai-chatbot-food-ordering-tracking/
 ├── 📁 frontend/
-│   └── index.html           # Frontend with embedded chatbot
+│   └── index.html           # Web interface with embedded chatbot
 ├── 📁 backend/
-│   ├── main.py              # FastAPI backend
-│   ├── db_helper.py         # MySQL operations
-│   ├── generic_helper.py    # Utility functions
+│   ├── main.py              # FastAPI entry point & routes
+│   ├── db_helper.py         # MySQL CRUD operations
+│   └── generic_helper.py    # Regex & string parsing utilities
+├── 📁 sql/
+│   └── db_dump.sql          # Database schema and sample data
 ├── README.md                # Project documentation
-```
-
----
-
-### Frontend Sample
-
-```html
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Right-aligned Iframe</title>
-  </head>
-  <body style="background-color: #2B2222;">
-    <center>
-      <img src="1.png" alt="chatbot not found">
-      <img src="2.png" alt="chatbot not found">
-    </center>
-    <iframe
-      width="350"
-      height="430"
-      allow="microphone;"
-      src="https://console.dialogflow.com/api-client/demo/embedded/6ef1cbeb-bde8-4bbb-8761-3b2511fcc343"
-      frameborder="0"
-      allowfullscreen
-      align="right">
-    </iframe>
-  </body>
-</html>
-```
-
----
-
-### License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-### Contact
-
-For questions or suggestions, contact **Gobinathan K** at [gopinathan1154@gmail.com](mailto:gopinathan1154@gmail.com).
-
----
+└── LICENSE                  # MIT License
+📜 LicenseThis project is licensed under the MIT License. Feel free to use, modify, and distribute as you see fit. See the LICENSE file for more details.🤝 ContactGobinathan K📧 gopinathan1154@gmail.com🔗 GitHub Profile
